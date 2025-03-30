@@ -2,7 +2,7 @@
 import useDialogBox from "@/context/dialog-provider/use-dialog";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useClerk } from "@clerk/nextjs";
-import { Menu } from "lucide-react";
+import { Menu, Moon, Sun } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SignedInComponent from "./signedIn";
@@ -13,12 +13,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
+import { useTheme } from "next-themes";
 
 const Header = () => {
   const pathname = usePathname();
   const { signOut } = useClerk();
   const { showDialog, closeDialog } = useDialogBox();
   const isMobile = useIsMobile();
+  const { theme, setTheme } = useTheme();
 
   const navLink = [
     {
@@ -44,6 +46,15 @@ const Header = () => {
           negativeLabel: "Cancel",
         });
       },
+    },
+    {
+      title: (
+        <div className="flex">
+          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+        </div>
+      ),
+      onClick: () => (theme === "light" ? setTheme("dark") : setTheme("light")),
     },
   ];
 
