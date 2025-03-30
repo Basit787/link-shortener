@@ -47,15 +47,6 @@ const Header = () => {
         });
       },
     },
-    {
-      title: (
-        <div className="flex">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-        </div>
-      ),
-      onClick: () => (theme === "light" ? setTheme("dark") : setTheme("light")),
-    },
   ];
 
   const NavlinkTabs = () => {
@@ -83,7 +74,7 @@ const Header = () => {
   return (
     <header className="flex flex-row justify-between py-4">
       <h1 className="text-xl font-bold">Link Shortener</h1>
-      <nav>
+      <nav className="flex items-center gap-2">
         <SignedInComponent>
           {isMobile ? (
             <Sheet>
@@ -103,6 +94,16 @@ const Header = () => {
             <NavlinkTabs />
           )}
         </SignedInComponent>
+        <button
+          onClick={() =>
+            theme === "light" ? setTheme("dark") : setTheme("light")
+          }
+        >
+          <div className="flex">
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          </div>
+        </button>
       </nav>
     </header>
   );

@@ -54,50 +54,52 @@ export default function LinkShortenerForm() {
   }
 
   return (
-    <section className="flex justify-center items-center">
-      <div className="space-y-4 p-4">
+    <section className="flex justify-center items-center p-4">
+      <div className="space-y-4 w-full max-w-3xl">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-2 md:flex gap-2"
+            className="space-y-2 flex flex-col md:flex-row md:items-center gap-2"
           >
             <FormField
               control={form.control}
               name="url"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormControl>
                     <Input
                       placeholder="Enter your URL here"
                       {...field}
                       disabled={!!data}
-                      className="md:w-[50rem] w-[20rem]"
+                      className="w-full md:max-w-[50rem]"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={!!data}>
+            <Button
+              type="submit"
+              disabled={!!data}
+              className="w-full md:w-auto"
+            >
               Submit
             </Button>
           </form>
         </Form>
+
         {!!data && (
           <div className="space-y-2">
-            <div className="space-y-2 md:flex gap-2">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-2">
               <Input
-                placeholder="Enter your URL here"
-                value={`${process.env.NEXT_PUBLIC_BASE_URL}/${data.key}`}
+                placeholder="Shortened URL"
+                value={data.key}
                 readOnly
-                className="md:w-[50rem] w-[20rem]"
+                className="w-full md:max-w-[50rem]"
               />
               <Button
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    `${process.env.NEXT_PUBLIC_BASE_URL}/${data.key}`
-                  )
-                }
+                onClick={() => navigator.clipboard.writeText(data.key)}
+                className="w-full md:w-auto"
               >
                 Copy
               </Button>
@@ -107,7 +109,7 @@ export default function LinkShortenerForm() {
                 form.reset();
                 reset();
               }}
-              className="text-foreground/50 cursor-pointer"
+              className="text-foreground/50 cursor-pointer text-center"
             >
               Create New Short Link
             </p>

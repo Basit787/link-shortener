@@ -1,7 +1,7 @@
 "use server";
 
 import dbConnect from "@/db";
-import { default as Link, default as linkSchema } from "@/models/link.model";
+import { default as Link } from "@/models/link.model";
 import { createRandomKey } from "@/utils/create-key.utils";
 import { currentUser } from "@clerk/nextjs/server";
 
@@ -9,7 +9,7 @@ export const addLink = async (link: string) => {
   const user = await currentUser();
   const userEmail =
     user?.emailAddresses?.[0]?.emailAddress ?? "defaultEmail@gmail.com";
-  const key = createRandomKey(link);
+  const key = createRandomKey();
   try {
     await dbConnect();
     const newLink = new Link({

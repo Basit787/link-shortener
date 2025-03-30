@@ -55,12 +55,12 @@ const MyLinks = () => {
 
   if (isPending) return "Loading...";
 
+  if (error) return "An error has occurred: " + error.message;
+
   if (!!!data?.length)
     return (
       <div className="text-center text-xl font-semibold">No Link added</div>
     );
-
-  if (error) return "An error has occurred: " + error.message;
   return (
     <section>
       <h1>My Links</h1>
@@ -75,13 +75,8 @@ const MyLinks = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((data, index) => (
-            <TableRow
-              key={data.id}
-              className={`${
-                index % 2 == 0 ? "bg-foreground/1" : "bg-foreground/5"
-              }`}
-            >
+          {data.map((data) => (
+            <TableRow key={data.id}>
               <TableCell className="font-medium">{data.id}</TableCell>
               <TableCell className="w-[5rem]">{data.link}</TableCell>
               <TableCell>{data.key}</TableCell>
@@ -91,9 +86,7 @@ const MyLinks = () => {
                     variant="outline"
                     className="bg-transparent shadow-none border-none"
                     onClick={() => {
-                      navigator.clipboard.writeText(
-                        `${process.env.NEXT_PUBLIC_BASE_URL}/${data.key}`
-                      );
+                      navigator.clipboard.writeText(data.key);
                       toast("Key coppied sucessfully");
                     }}
                   >
