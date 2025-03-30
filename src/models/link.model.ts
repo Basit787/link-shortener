@@ -13,7 +13,6 @@ const userlinkmodel = new Schema(
     userEmail: {
       type: String,
       required: true,
-      default: "defaultEmail@gmail.com",
     },
   },
   { timestamps: true }

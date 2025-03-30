@@ -74,7 +74,7 @@ const Header = () => {
   return (
     <header className="flex flex-row justify-between py-4">
       <h1 className="text-xl font-bold">Link Shortener</h1>
-      <nav className="flex items-center gap-2">
+      <nav className="flex items-center gap-8">
         <SignedInComponent>
           {isMobile ? (
             <Sheet>

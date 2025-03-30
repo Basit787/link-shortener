@@ -27,17 +27,14 @@ const MyLinks = () => {
   const { mutate } = useMutation({
     mutationKey: ["links"],
     mutationFn: async (id: string) => {
-      const result = await deleteLink(id);
-      console.log("djfgjkdfgdkj", result);
-      return result;
+      return await deleteLink(id);
     },
     onSuccess: () => {
       closeDialog();
       queryClient.invalidateQueries({ queryKey: ["links"] });
       toast("Link deleted successfully");
     },
-    onError: (err) => {
-      console.log(err);
+    onError: () => {
       toast("Failed to delete the link");
     },
   });

@@ -6,11 +6,14 @@ import { createRandomKey } from "@/utils/create-key.utils";
 import { currentUser } from "@clerk/nextjs/server";
 
 export const addLink = async (link: string) => {
-  const user = await currentUser();
-  const userEmail =
-    user?.emailAddresses?.[0]?.emailAddress ?? "defaultEmail@gmail.com";
-  const key = createRandomKey();
   try {
+    const user = await currentUser();
+
+    const userEmail =
+      user?.emailAddresses?.[0]?.emailAddress ?? "defaultEmail@gmail.com";
+
+    const key = createRandomKey();
+
     await dbConnect();
 
     const newLink = new Link({
@@ -36,10 +39,9 @@ export const addLink = async (link: string) => {
 };
 
 export const getAllLinks = async () => {
-  const user = await currentUser();
-  const userEmail = user?.emailAddresses?.[0]?.emailAddress;
-
   try {
+    const user = await currentUser();
+    const userEmail = user?.emailAddresses?.[0]?.emailAddress;
     await dbConnect();
     const data = await Link.find({ userEmail });
 

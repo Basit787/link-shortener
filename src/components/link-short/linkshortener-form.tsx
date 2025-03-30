@@ -41,9 +41,6 @@ export default function LinkShortenerForm() {
       queryClient.invalidateQueries({ queryKey: ["links"] });
     },
     onError: () => {
-      form.setError("url", {
-        message: "Error while creating short link",
-      });
       toast("Failed to create the short link");
     },
   });
@@ -97,11 +94,12 @@ export default function LinkShortenerForm() {
                 className="w-full md:max-w-[50rem]"
               />
               <Button
-                onClick={() =>
+                onClick={() => {
                   navigator.clipboard.writeText(
                     `${process.env.NEXT_PUBLIC_BASE_URL}/api/${data.key}`
-                  )
-                }
+                  );
+                  toast("Key copied");
+                }}
                 className="w-full md:w-auto"
               >
                 Copy
