@@ -1,27 +1,28 @@
 "use client";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import React from "react";
-import { deleteLink, getAllLinks } from "../actions/link";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import useDialogBox from "@/context/dialog-provider/use-dialog";
 import { queryClient } from "@/providers";
-import { toast } from "sonner";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Copy, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+import { deleteLink, getAllLinks } from "../actions/link";
 
 const MyLinks = () => {
   const { isPending, error, data } = useQuery({
     queryKey: ["links"],
     queryFn: getAllLinks,
   });
+
+  const { showDialog, closeDialog } = useDialogBox();
 
   const { mutate } = useMutation({
     mutationKey: ["links"],
@@ -31,6 +32,7 @@ const MyLinks = () => {
       return result;
     },
     onSuccess: () => {
+      closeDialog();
       queryClient.invalidateQueries({ queryKey: ["links"] });
       toast("Link deleted successfully");
     },
@@ -40,7 +42,16 @@ const MyLinks = () => {
     },
   });
 
-  console.log(data);
+  const handleDelete = (id: string) => {
+    return showDialog({
+      title: "Confirm link delete",
+      description: "Are you sure to delete the link, this step is undone",
+      positiveAction: () => mutate(id),
+      negativeAction: () => closeDialog(),
+      positiveLabel: "Delete",
+      negativeLabel: "Cancel",
+    });
+  };
 
   if (isPending) return "Loading...";
 
@@ -91,7 +102,7 @@ const MyLinks = () => {
                   <Button
                     variant="outline"
                     className="bg-transparent shadow-none border-none"
-                    onClick={() => mutate(data.id)}
+                    onClick={() => handleDelete(data.id)}
                   >
                     <Trash2 color="red" />
                   </Button>

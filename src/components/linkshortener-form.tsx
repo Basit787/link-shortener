@@ -84,7 +84,7 @@ export default function LinkShortenerForm() {
           </form>
         </Form>
         {!!data && (
-          <div>
+          <div className="space-y-2">
             <div className="space-y-2 md:flex gap-2">
               <Input
                 placeholder="Enter your URL here"
