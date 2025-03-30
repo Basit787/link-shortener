@@ -1,9 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
+import { addLink } from "@/app/actions/link";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,10 +10,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useMutation } from "@tanstack/react-query";
-import { addLink } from "@/app/actions/link";
 import { queryClient } from "@/providers";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 
 const FormSchema = z.object({
   url: z.string().url({ message: "Url must be in proper format" }),
@@ -59,7 +58,7 @@ export default function LinkShortenerForm() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-2 flex flex-col md:flex-row md:items-center gap-2"
+            className="space-y-2 md:space-y-0 flex flex-col md:flex-row md:items-center gap-2"
           >
             <FormField
               control={form.control}

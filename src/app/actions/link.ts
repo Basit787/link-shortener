@@ -12,6 +12,7 @@ export const addLink = async (link: string) => {
   const key = createRandomKey();
   try {
     await dbConnect();
+
     const newLink = new Link({
       link,
       key,
