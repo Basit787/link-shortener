@@ -1,4 +1,8 @@
-import LinkShortenerForm from "@/components/linkshortener-form";
+import dynamic from "next/dynamic";
+
+const LinkShortenerForm = dynamic(
+  () => import("@/components/linkshortener-form")
+);
 
 export default async function Home() {
   return (
@@ -10,9 +14,7 @@ export default async function Home() {
           seconds
         </p>
       </div>
-      <div>
-        <LinkShortenerForm />
-      </div>
+      <LinkShortenerForm />
     </section>
   );
 }

@@ -98,7 +98,11 @@ export default function LinkShortenerForm() {
                 className="w-full md:max-w-[50rem]"
               />
               <Button
-                onClick={() => navigator.clipboard.writeText(data.key)}
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    `${process.env.NEXT_PUBLIC_BASE_URL}/api/${data.key}`
+                  )
+                }
                 className="w-full md:w-auto"
               >
                 Copy

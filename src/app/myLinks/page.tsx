@@ -86,7 +86,9 @@ const MyLinks = () => {
                     variant="outline"
                     className="bg-transparent shadow-none border-none"
                     onClick={() => {
-                      navigator.clipboard.writeText(data.key);
+                      navigator.clipboard.writeText(
+                        `${process.env.NEXT_PUBLIC_BASE_URL}/api/${data.key}`
+                      );
                       toast("Key coppied sucessfully");
                     }}
                   >
