@@ -1,6 +1,5 @@
 "use client";
 
-import { addLink } from "@/app/actions/link";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,12 +9,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { queryClient } from "@/providers";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { LoaderPinwheel } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { useAddLink } from "./api/hooks";
 
 const FormSchema = z.object({
   url: z.string().url({ message: "Url must be in proper format" }),
@@ -30,20 +29,7 @@ export default function LinkShortenerForm() {
     mode: "onChange",
   });
 
-  const { mutate, data, reset } = useMutation({
-    mutationKey: ["links"],
-    mutationFn: async (link: string) => {
-      const result = await addLink(link);
-      return result;
-    },
-    onSuccess: () => {
-      toast("Short link created successfully");
-      queryClient.invalidateQueries({ queryKey: ["links"] });
-    },
-    onError: () => {
-      toast("Failed to create the short link");
-    },
-  });
+  const { mutate, data, reset, isPending: loading } = useAddLink();
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     mutate(data.url);
@@ -61,7 +47,7 @@ export default function LinkShortenerForm() {
               control={form.control}
               name="url"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-full relative">
                   <FormControl>
                     <Input
                       placeholder="Enter your URL here"
@@ -70,15 +56,16 @@ export default function LinkShortenerForm() {
                       className="w-full md:max-w-[50rem]"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="absolute bottom-10" />
                 </FormItem>
               )}
             />
             <Button
               type="submit"
-              disabled={!!data}
+              disabled={!!data || loading}
               className="w-full md:w-auto"
             >
+              {loading && <LoaderPinwheel className="animate-spin h-5 w-5" />}
               Submit
             </Button>
           </form>
