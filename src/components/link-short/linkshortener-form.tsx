@@ -76,14 +76,14 @@ export default function LinkShortenerForm() {
             <div className="flex flex-col md:flex-row justify-center items-center gap-2">
               <Input
                 placeholder="Shortened URL"
-                value={data.key}
+                value={`${process.env.NEXT_PUBLIC_BASE_URL}/${data.key}`}
                 readOnly
                 className="w-full md:max-w-[50rem]"
               />
               <Button
                 onClick={() => {
                   navigator.clipboard.writeText(
-                    `${process.env.NEXT_PUBLIC_BASE_URL}/api/${data.key}`
+                    `${process.env.NEXT_PUBLIC_BASE_URL}/api/${data.key}`,
                   );
                   toast("Key copied");
                 }}
